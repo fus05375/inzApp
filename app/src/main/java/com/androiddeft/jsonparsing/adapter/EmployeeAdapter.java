@@ -2,6 +2,7 @@ package com.androiddeft.jsonparsing.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,9 +56,10 @@ public class EmployeeAdapter extends ArrayAdapter<EmployeeDetails> {
             price.setText(employee.getPrice());
             link.setText(employee.getLink());
             source.setText(employee.getSource());
-            Picasso.get().load(employee.getImage()).into(imageView);
+            Log.d("MyApp",employee.getImage());
+            //Picasso.get().load(employee.getImage()).into(imageView);
 
-            //Picasso.with(getContext()).load(employee.getImage()).into(imageView);
+            Picasso.with(getContext()).load(employee.getImage()).into(imageView);
         }
 
         return v;
