@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">INŻ DEMO</string>
+    <string-array name="category_array">
+        <item>Wszystko</item>
+        <item>Moda</item>
+        <item>Nieruchomosci</item>
+        <item>Dom i ogrod</item>
+        <item>Muzyka</item>
+        <item>Motoryzacja</item>
+        <item>Oferty pracy</item>
+        <item>Dla dziecka</item>
+        <item>Elektronika</item>
+        <item>Uslugi</item>
+        <item>Zwierzaki</item>
+        <item>Sportowe</item>
+
+    </string-array>
+</resources>
