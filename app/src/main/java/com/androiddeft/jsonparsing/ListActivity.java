@@ -51,7 +51,7 @@ public class ListActivity extends AppCompatActivity {
 
     private Context context;
 
-    private String url = "http://192.168.43.219:3000/search/";
+    private String url = "http://192.168.0.234:3000/search/";
 
 
     @Override

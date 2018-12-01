@@ -1,12 +1,15 @@
 package com.androiddeft.jsonparsing.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,9 +40,9 @@ public class EmployeeAdapter extends ArrayAdapter<EmployeeDetails> {
         if (v == null) {
 
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.employee_row, null);
+            v = inflater.inflate(R.layout.model, null);
         }
-        EmployeeDetails employee = dataSet.get(position);
+        final EmployeeDetails employee = dataSet.get(position);
         if (employee != null) {
             //Text View references
             TextView title = (TextView) v.findViewById(R.id.title);
@@ -54,9 +57,18 @@ public class EmployeeAdapter extends ArrayAdapter<EmployeeDetails> {
             title.setText(employee.getTitle());
             //image.setText(employee.getImage());
             price.setText(employee.getPrice());
-            link.setText(employee.getLink());
+
+            title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent browserIntent = new Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse(employee.getLink()));
+                    view.getContext().startActivity(browserIntent);
+                }
+            });
+            //link.setText(employee.getLink());
             source.setText(employee.getSource());
-            Log.d("MyApp",employee.getImage());
             //Picasso.get().load(employee.getImage()).into(imageView);
 
             Picasso.with(getContext()).load(employee.getImage()).into(imageView);
