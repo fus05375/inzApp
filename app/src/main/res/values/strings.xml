@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">INŻ DEMO</string>
+    <string name="app_name">Pchli Targ Online</string>
     <string-array name="category_array">
         <item>Wszystko</item>
         <item>Moda</item>

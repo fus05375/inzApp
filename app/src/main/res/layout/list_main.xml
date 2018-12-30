@@ -11,48 +11,22 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:id="@+id/upBar"
-        >
-
-
-        <ImageButton
-            android:id="@+id/previousBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="59dp"
-            android:background="@drawable/back"
-        />
-
-        <ImageButton
-            android:id="@+id/nextBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="59dp"
-            android:layout_marginRight="59dp"
-            android:background="@drawable/next"
-
-         />
-    </RelativeLayout>
-
-
+        android:layout_height="match_parent"
+        android:id="@+id/list">
     <ListView
 
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="50dp"
         android:id="@+id/employeeList"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:divider="@android:color/transparent"
         android:dividerHeight="5dp"
         android:scrollbars="vertical"
-        android:layout_below="@+id/upBar"
         android:focusable="true"
          />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -64,7 +38,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/bottomNavView_Bar"
-            android:background="@drawable/white_grey_border_top"
             app:menu="@menu/bottom_navigation_menu">
 
 

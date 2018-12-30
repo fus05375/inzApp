@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,14 +18,13 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 
-
 public class EmployeeAdapter extends ArrayAdapter<EmployeeDetails> {
 
     private List<EmployeeDetails> dataSet;
 
 
     public EmployeeAdapter(List<EmployeeDetails> dataSet, Context mContext) {
-        super(mContext, R.layout.employee_row, dataSet);
+        super(mContext, R.layout.model, dataSet);
 
         this.dataSet = dataSet;
     }
@@ -46,16 +43,15 @@ public class EmployeeAdapter extends ArrayAdapter<EmployeeDetails> {
         if (employee != null) {
             //Text View references
             TextView title = (TextView) v.findViewById(R.id.title);
-            TextView image = (TextView) v.findViewById(R.id.image);
+            //TextView image = (TextView) v.findViewById(R.id.image);
             TextView price = (TextView) v.findViewById(R.id.price);
-            TextView link = (TextView) v.findViewById(R.id.link);
+            //TextView link = (TextView) v.findViewById(R.id.link);
             TextView source = (TextView) v.findViewById(R.id.source);
             ImageView imageView = (ImageView) v.findViewById(R.id.iv_image);
 
 
             //Updating the text views
             title.setText(employee.getTitle());
-            //image.setText(employee.getImage());
             price.setText(employee.getPrice());
 
             title.setOnClickListener(new View.OnClickListener() {
@@ -64,16 +60,18 @@ public class EmployeeAdapter extends ArrayAdapter<EmployeeDetails> {
                     Intent browserIntent = new Intent(
                             Intent.ACTION_VIEW,
                             Uri.parse(employee.getLink()));
+                    browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                     view.getContext().startActivity(browserIntent);
                 }
             });
-            //link.setText(employee.getLink());
             source.setText(employee.getSource());
-            //Picasso.get().load(employee.getImage()).into(imageView);
 
             Picasso.with(getContext()).load(employee.getImage()).into(imageView);
         }
 
         return v;
     }
+
+
 }

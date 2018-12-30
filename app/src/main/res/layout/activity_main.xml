@@ -35,10 +35,6 @@
                 android:layout_margin="20dp"
                 android:gravity="center"
                 android:inputType="text"
-                android:text=" "
-
-
-
                 />
 
             <Spinner

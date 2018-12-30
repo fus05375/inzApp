@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,83 +40,26 @@ public class ListActivity extends AppCompatActivity {
     private static final String KEY_PRICE = "price";
     private static final String KEY_LINK = "link";
     private static final String KEY_SOURCE = "source";
-    private int page =1;
+    private int page = 1;
 
     private ProgressDialog pDialog;
     private int success;
     private EmployeeAdapter adapter;
     private String searchTag;
     private String category;
-    Map<String,String> categoryMap;
+    Map<String, String> categoryMap;
     private ImageButton previousBtn;
     private ImageButton nextBtn;
 
     private Context context;
 
-    private String url = "http://192.168.0.234:3000/search/";
+    private String url = "https://nameless-journey-79273.herokuapp.com/search/";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_main);
-
-
-
-
-        nextBtn = (ImageButton) findViewById(R.id.nextBtn);
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View v) {
-
-                page++;
-
-                Toast msg = Toast.makeText(getBaseContext(), String.valueOf(page),
-                        Toast.LENGTH_LONG);
-                msg.show();
-
-                new FetchEmployeeDetails().execute();
-
-
-            }
-
-        });
-
-        previousBtn = (ImageButton) findViewById(R.id.previousBtn);
-        previousBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View v) {
-
-
-                if(page>=2) {
-                    page--;
-
-                    Toast msg = Toast.makeText(getBaseContext(), String.valueOf(page),
-                            Toast.LENGTH_LONG);
-                    msg.show();
-
-                    new FetchEmployeeDetails().execute();
-                }else{
-
-                    Toast msg = Toast.makeText(getBaseContext(), "Jesteś na pierwszej stronie!",
-                            Toast.LENGTH_LONG);
-                    msg.show();
-
-                }
-
-
-            }
-
-        });
-
-
-
-
-
 
         // receive the arguments from the previous Activity
         Bundle extras = getIntent().getExtras();
@@ -123,30 +68,24 @@ public class ListActivity extends AppCompatActivity {
         }
 
         // assign the values to string-arguments
-        searchTag= extras.getString("searchTag");
+        searchTag = extras.getString("searchTag");
 
-        category= extras.getString("category");
+        category = extras.getString("category");
 
-        Toast msg = Toast.makeText(getBaseContext(), category,
-                Toast.LENGTH_LONG);
-        msg.show();
 
         categoryMap = new HashMap<>();
-        categoryMap.put("Wszystko","all");
-        categoryMap.put("Moda","moda");
-        categoryMap.put("Nieruchomosci","nieruchomosci");
-        categoryMap.put("Dom i ogrod","dom-i-ogrod");
-        categoryMap.put("Muzyka","muzyka-i-rozrywka");
-        categoryMap.put("Motoryzacja","motoryzacja");
-        categoryMap.put("Oferty pracy","oferty-pracy");
-        categoryMap.put("Dla dziecka","dla-dziecka");
-        categoryMap.put("Elektronika","elektronika");
-        categoryMap.put("Uslugi","uslugi");
-        categoryMap.put("Zwierzaki","zwierzaki");
-        categoryMap.put("Sportowe","sportowe");
-
-
-
+        categoryMap.put("Wszystko", "all");
+        categoryMap.put("Moda", "moda");
+        categoryMap.put("Nieruchomosci", "nieruchomosci");
+        categoryMap.put("Dom i ogrod", "dom-i-ogrod");
+        categoryMap.put("Muzyka", "muzyka-i-rozrywka");
+        categoryMap.put("Motoryzacja", "motoryzacja");
+        categoryMap.put("Oferty pracy", "oferty-pracy");
+        categoryMap.put("Dla dziecka", "dla-dziecka");
+        categoryMap.put("Elektronika", "elektronika");
+        categoryMap.put("Uslugi", "uslugi");
+        categoryMap.put("Zwierzaki", "zwierzaki");
+        categoryMap.put("Sportowe", "sportowe");
 
 
         //Call the AsyncTask
@@ -156,29 +95,42 @@ public class ListActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
-        menuItem.setChecked(true);
+        menuItem.setChecked(false);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.ic_arrow:
+                switch (item.getItemId()) {
+                    case R.id.ic_back:
+                        if (page >= 2) {
+                            page--;
+
+                            Toast msg = Toast.makeText(getBaseContext(), String.valueOf(page),
+                                    Toast.LENGTH_SHORT);
+                            msg.show();
+
+                            new FetchEmployeeDetails().execute();
+                        } else {
+
+                            Intent intent0 = new Intent(ListActivity.this, MainActivity.class);
+                            startActivity(intent0);
+                            break;
+
+                        }
+                        break;
+                    case R.id.ic_main:
                         Intent intent0 = new Intent(ListActivity.this, MainActivity.class);
                         startActivity(intent0);
                         break;
+                    case R.id.ic_next:
+                        page++;
 
+                        Toast msg = Toast.makeText(getBaseContext(), String.valueOf(page),
+                                Toast.LENGTH_SHORT);
+                        msg.show();
 
-                    case R.id.ic_android:
-                        Intent intent1 = new Intent(ListActivity.this, ListActivity.class);
-                        startActivity(intent1);
+                        new FetchEmployeeDetails().execute();
                         break;
-
-
-                    case R.id.ic_center_focus:
-                        Intent intent3 = new Intent(ListActivity.this, ListActivity.class);
-                        startActivity(intent3);
-                        break;
-
 
                 }
 
@@ -191,6 +143,7 @@ public class ListActivity extends AppCompatActivity {
 
     private class FetchEmployeeDetails extends AsyncTask<String, String, String> {
         JSONObject response;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -205,11 +158,16 @@ public class ListActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             HttpJsonParser jsonParser = new HttpJsonParser();
-            response = jsonParser.makeHttpRequest(url +searchTag +"/"+ categoryMap.get(category)+"/"+page ,"GET",null);
+            response = jsonParser.makeHttpRequest(url + searchTag + "/" + categoryMap.get(category) + "/" + page, "GET", null);
+            if(response==null){
+                Log.d("Response is Null","Check IP Address");
+            }
             try {
                 success = response.getInt(KEY_SUCCESS);
+
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
             return null;
         }
@@ -221,14 +179,14 @@ public class ListActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 public void run() {
 
-                    ListView listView =(ListView)findViewById(R.id.employeeList);
+                    ListView listView = (ListView) findViewById(R.id.employeeList);
                     if (success == 1) {
 
                         try {
-                            JSONArray employeeArray =  response.getJSONArray(KEY_DATA);
+                            JSONArray employeeArray = response.getJSONArray(KEY_DATA);
                             List<EmployeeDetails> employeeList = new ArrayList<>();
                             //Populate the EmployeeDetails list from response
-                            for (int i = 0; i<employeeArray.length();i++){
+                            for (int i = 0; i < employeeArray.length(); i++) {
                                 EmployeeDetails employeeDetails = new EmployeeDetails();
                                 JSONObject employeeObj = employeeArray.getJSONObject(i);
                                 employeeDetails.setTitle(employeeObj.getString(KEY_TITLE));
@@ -243,7 +201,7 @@ public class ListActivity extends AppCompatActivity {
                                 employeeList.add(employeeDetails);
                             }
                             //Create an adapter with the EmployeeDetails List and set it to the LstView
-                            adapter = new EmployeeAdapter(employeeList,getApplicationContext());
+                            adapter = new EmployeeAdapter(employeeList, getApplicationContext());
                             listView.setAdapter(adapter);
 
                         } catch (JSONException e) {

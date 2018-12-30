@@ -1,5 +1,6 @@
 package com.androiddeft.jsonparsing.beans;
 
+
 /**
  * Created by Abhi on 03 Sep 2017 003.
  */
