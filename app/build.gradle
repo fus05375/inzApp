@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "com.androiddeft.jsonparsing"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -25,11 +25,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //noinspection GradleCompatible
-
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'com.squareup.picasso:picasso:2.5.1'
-    compile 'com.android.support:design:25.0.1'
     compile 'com.android.support:cardview-v7:23.3.0'
+    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.squareup.picasso:picasso:2.5.1'
+    compile 'com.android.support:design:26.0.1'
 
 
 

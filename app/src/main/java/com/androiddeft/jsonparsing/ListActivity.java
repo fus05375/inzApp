@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -54,6 +55,14 @@ public class ListActivity extends AppCompatActivity {
     private Context context;
 
     private String url = "https://nameless-journey-79273.herokuapp.com/search/";
+
+
+    @Override
+    protected void onDestroy() {
+        finish();
+        super.onDestroy();
+    }
+
 
 
     @Override
@@ -139,6 +148,8 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
     private class FetchEmployeeDetails extends AsyncTask<String, String, String> {
@@ -217,6 +228,7 @@ public class ListActivity extends AppCompatActivity {
                 }
             });
         }
+
 
     }
 
